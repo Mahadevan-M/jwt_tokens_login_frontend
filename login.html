@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        /* Modern CSS Reset & Fonts */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: #f4f6f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Professional Card Layout */
+        .container {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        h2 {
+            color: #333333;
+            margin-bottom: 24px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        /* Input Fields styling */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cccccc;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: border-color 0.2s ease;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #0066cc;
+        }
+
+        /* Primary Action Button */
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #0052a3;
+        }
+
+        /* Link Footer */
+        .footer-links {
+            margin-top: 24px;
+            text-align: center;
+            font-size: 14px;
+            color: #666666;
+        }
+
+        .footer-links a {
+            color: #0066cc;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <h2>Welcome Back</h2>
+
+    <!-- Wrapped inside a form structure for accessibility -->
+    <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" placeholder="Enter your username">
+    </div>
+
+    <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="Enter your password">
+    </div>
+
+    <button onclick="loginUser()">Sign In</button>
+
+    <!-- Professional link to registration -->
+    <div class="footer-links">
+        Don't have an account? <a href="register.html">Register here</a>
+    </div>
+
+</div>
+
+<script>
+async function loginUser(){
+
+    const data = {
+        username: document.getElementById("username").value,
+        password: document.getElementById("password").value
+    }
+
+    // Basic frontend safety validation
+    if (!data.username || !data.password) {
+        alert("Please fill in all fields.");
+        return;
+    }
+
+    try {
+        const response = await fetch(
+            "http://127.0.0.1:8000/api/login/",
+            {
+                method: "POST",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body: JSON.stringify(data)
+            }
+        )
+
+        // Handles invalid inputs (400/401 errors) gracefully
+        if (!response.ok) {
+            const errorData = await response.json();
+            alert(errorData.detail || "Invalid Username or Password!");
+            return; 
+        }
+
+        const result = await response.json()
+
+        // Safely store authorization tokens
+        localStorage.setItem("access", result.access)
+        localStorage.setItem("refresh", result.refresh)
+
+        alert("Login Success")
+        window.location.href = "dashboard.html"
+
+    } catch (error) {
+        console.error("Network Error:", error);
+        alert("Unable to connect to the server. Please ensure your backend is running.");
+    }
+}
+</script>
+
+</body>
+</html>
