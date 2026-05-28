@@ -10,44 +10,53 @@
 
     <h2>Dashboard</h2>
 
-    <button onclick="getDashboardData()">
-        Get Dashboard Data
-    </button>
+    <h3 id="message">
+        Click the button to access protected data
+    </h3>
 
-    <h3 id="message"></h3>
+    <div class="actions">
 
-    <button onclick="logout()">
-        Logout
-    </button>
+        <button onclick="getDashboardData()">
+            Get Data
+        </button>
+
+        <button class="btn-danger" onclick="logout()">
+            Logout
+        </button>
+
+    </div>
 
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 <script>
 
 async function getDashboardData(){
 
-    // getting access token from localStorage
-    const accessToken = localStorage.getItem("access")
+    try{
 
-    console.log("Access Token:", accessToken)
+        const access = localStorage.getItem("access")
 
-    const response = await fetch(
-        "http://127.0.0.1:8000/api/dashboard/",
-        {
-            method: "GET",
+        console.log("Access Token:", access)
 
-            headers:{
-                "Authorization": `Bearer ${accessToken}`
+        const response = await axios.get(
+            "http://127.0.0.1:8000/api/dashboard/",
+            {
+                headers:{
+                    Authorization:`Bearer ${access}`
+                }
             }
-        }
-    )
+        )
 
-    const result = await response.json()
+        document.getElementById("message").innerText =
+            response.data.message
 
-    console.log(result)
+    }catch(error){
 
-    document.getElementById("message").innerText =
-        result.message || result.detail
+        document.getElementById("message").innerText =
+            "Unauthorized Access"
+    }
 }
 
 function logout(){

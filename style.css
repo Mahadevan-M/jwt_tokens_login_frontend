@@ -1,27 +1,143 @@
-body{
-    font-family: Arial;
-    background-color: #f2f2f2;
+/* ==========================================================================
+   1. Design System & Variables
+   ========================================================================== */
+:root {
+    --primary-color: #000000;
+    --primary-hover: #222222;
+    --danger-color: #dc3545;
+    --danger-hover: #bd2130;
+    --bg-color: #f8f9fa;
+    --card-bg: #ffffff;
+    --text-color: #333333;
+    --text-muted: #666666;
+    --border-color: #cccccc;
+    --focus-ring: #0056b3;
 }
 
-.container{
-    width: 350px;
-    margin: 100px auto;
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
+/* ==========================================================================
+   2. Reset & Global Styles
+   ========================================================================== */
+* {
+    box-sizing: border-box; /* Crucial: Prevents padded inputs from bursting out of containers */
+    margin: 0;
+    padding: 0;
 }
 
-input{
+body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Centers the card perfectly vertically on any screen size */
+}
+
+/* ==========================================================================
+   3. Layout Components
+   ========================================================================== */
+.container {
     width: 100%;
-    padding: 10px;
-    margin-top: 10px;
+    max-width: 380px; /* Responsive guard rail */
+    background: var(--card-bg);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Adds a subtle, professional shadow depth */
 }
 
-button{
+h2 {
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+h3#message {
+    font-size: 1.1rem;
+    margin: 20px 0;
+    text-align: center;
+    color: var(--text-color);
+}
+
+/* ==========================================================================
+   4. Forms & Inputs
+   ========================================================================== */
+.form-group {
+    margin-bottom: 15px; /* Replaces messy input margins with professional spacing */
+}
+
+input {
     width: 100%;
-    padding: 10px;
-    margin-top: 15px;
-    background: black;
+    padding: 12px;
+    font-size: 0.95rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+}
+
+input:focus {
+    border-color: var(--focus-ring);
+    box-shadow: 0 0 0 3px rgba(0, 86, 179, 0.15); /* Clean, modern accessibility glow */
+}
+
+/* ==========================================================================
+   5. Buttons & Actions
+   ========================================================================== */
+button {
+    width: 100%;
+    padding: 12px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    background: var(--primary-color);
     color: white;
     border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+button:hover {
+    background: var(--primary-hover);
+}
+
+button:disabled {
+    background: #aaaaaa;
+    cursor: not-allowed; /* Shows a distinct locked status cursor when loading */
+}
+
+/* Dashboard Action Alignment */
+.actions {
+    display: flex;
+    gap: 10px; /* Aligns dashboard refresh and logout buttons beautifully side by side */
+    margin-top: 20px;
+}
+
+.btn-danger {
+    background: var(--danger-color);
+}
+
+.btn-danger:hover {
+    background: var(--danger-hover);
+}
+
+/* ==========================================================================
+   6. Navigation / Typography Utilities
+   ========================================================================== */
+.form-footer {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.form-footer a {
+    color: var(--focus-ring);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.form-footer a:hover {
+    text-decoration: underline;
 }
